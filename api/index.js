@@ -31,6 +31,7 @@ mongoose
   });
 
 const User = require("./models/user");
+const job = require("./models/jobs");
 
 const sendVerificationEmail = async (email, verificationToken) => {
   const transporter = nodemailer.createTransport({
@@ -156,3 +157,25 @@ app.post("/Main", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+
+
+
+
+
+app.post("/jobs", async (req, res) => {
+  const { Companyname, JobDescription, JobName } = req.body;
+  const jobs = new job({
+    Companyname,
+    JobDescription,
+    JobName,
+  });
+  jobs.save();
+});
+
+
+
+app.get("/jobfetch", async (req, res) => {
+  const jobs = await job.find();
+  res.send(jobs);
+})

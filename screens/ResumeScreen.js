@@ -1,4 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
@@ -7,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 
 const ResumeScreen = () => {
+  const [jobsData, setJobsData] = useState([]);
   const [fontsLoaded] = useFonts({
     "Poppins-Italic": require("../assets/Fonts/Poppins-Italic.ttf"),
     "Poppins-Light": require("../assets/Fonts/Poppins-Light.ttf"),
@@ -18,6 +25,75 @@ const ResumeScreen = () => {
   if (!fontsLoaded) {
     return null;
   }
+
+  axios.get("http://192.168.0.100:8000/jobfetch").then((res) => {
+    setJobsData(res.data);
+  });
+
+  const jobViews = jobsData.map((job) => {
+    return (
+      <View
+        key={job._id}
+        style={{
+          margin: 5,
+          borderRadius: 10,
+          borderColor: "red",
+          padding: 15,
+          borderBlockColor: "black",
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: "Poppins-Bold",
+            fontSize: 16,
+          }}
+        >
+          {job.title}
+        </Text>
+        <Text
+          style={{
+            fontFamily: "Poppins-Light",
+          }}
+        >
+          {job.company}
+        </Text>
+        <Text
+          style={{
+            fontSize: 12,
+            fontFamily: "Poppins-Italic",
+            textAlign: "right",
+            position: "relative",
+            marginTop: -20,
+          }}
+        >
+          Location: {job.location}
+        </Text>
+        <Text
+          style={{
+            fontFamily: "Poppins-Light",
+            marginTop: 10,
+            fontSize: 12,
+          }}
+        >
+          {job.description}
+        </Text>
+        <TouchableOpacity>
+          <Text
+            style={{
+              textAlign: "right",
+              padding: 5,
+              marginLeft: 10,
+              fontSize: 12,
+              fontFamily: "Poppins-Bold",
+              color: "black",
+            }}
+          >
+            Apply
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  });
 
   return (
     <SafeAreaView
@@ -42,9 +118,23 @@ const ResumeScreen = () => {
             fontFamily: "Poppins-Bold",
           }}
         >
-          Resume
+          Jobs
         </Text>
       </View>
+      <ScrollView
+        style={{
+          height: 50,
+        }}
+      >
+        <View
+          style={{
+            borderRadius: 10,
+            borderColor: "black",
+          }}
+        >
+          {jobViews}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

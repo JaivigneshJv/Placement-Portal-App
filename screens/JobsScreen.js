@@ -42,11 +42,9 @@ const JobsScreen = () => {
             fontFamily: "Poppins-Bold",
           }}
         >
-          Jobs
+          Resume
         </Text>
       </View>
-
-      
     </SafeAreaView>
   );
 };

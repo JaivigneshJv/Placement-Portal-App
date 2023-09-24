@@ -21,7 +21,7 @@ const StackNavigator = () => {
       <Tab.Navigator>
         <Tab.Screen
           name="Jobs"
-          component={JobsScreen}
+          component={ResumeScreen}
           options={{
             tabBarShowLabel: false,
             tabBarLabelStyle: { color: "black" },
@@ -36,7 +36,7 @@ const StackNavigator = () => {
         />
         <Tab.Screen
           name="Resume"
-          component={ResumeScreen}
+          component={JobsScreen}
           options={{
             tabBarShowLabel: false,
             tabBarLabelStyle: { color: "black" },
