@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoginSVG from "../assets/images/login.svg";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -20,7 +20,19 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
-
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await AsyncStorage.getItem("authToken");
+        if (token) {
+          navigation.navigate("Main");
+        }
+      } catch (err) {
+        console.log("error at checkLogin", err);
+      }
+    };
+    checkLoginStatus();
+  }, []);
   const handleLogin = () => {
     const user = {
       email: email,
@@ -32,7 +44,7 @@ const LoginScreen = () => {
         console.log(res);
         const token = res.data.token;
         AsyncStorage.setItem("authToken", token);
-        navigation.navigate("Home");
+        navigation.navigate("Main");
       })
       .catch((err) => {
         Alert.alert("Login Error", "Invalid Credentials");

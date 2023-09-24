@@ -7,6 +7,11 @@ import RegisterScreen from "../screens/RegisterScreen";
 import HomeScreen from "../screens/HomeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import ProfileScreen from "../screens/ProfileScreen";
+import JobsScreen from "../screens/JobsScreen";
+import ResumeScreen from "../screens/ResumeScreen";
+import ChatScreen from "../screens/ChatScreen";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -16,7 +21,7 @@ const StackNavigator = () => {
       <Tab.Navigator>
         <Tab.Screen
           name="Jobs"
-          component={HomeScreen}
+          component={JobsScreen}
           options={{
             tabBarShowLabel: false,
             tabBarLabelStyle: { color: "black" },
@@ -31,7 +36,7 @@ const StackNavigator = () => {
         />
         <Tab.Screen
           name="Resume"
-          component={HomeScreen}
+          component={ResumeScreen}
           options={{
             tabBarShowLabel: false,
             tabBarLabelStyle: { color: "black" },
@@ -61,39 +66,31 @@ const StackNavigator = () => {
         />
         <Tab.Screen
           name="Notifications"
-          component={HomeScreen}
+          component={ChatScreen}
           options={{
             tabBarShowLabel: false,
             tabBarLabelStyle: { color: "black" },
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
-                <Ionicons name="notifications-circle" size={25} color="black" />
+                <Ionicons name="chatbox-sharp" size={23} color="black" />
               ) : (
-                <Ionicons
-                  name="notifications-circle-outline"
-                  size={25}
-                  color="black"
-                />
+                <Ionicons name="chatbox-outline" size={23} color="black" />
               ),
           }}
         />
         <Tab.Screen
           name="Profile"
-          component={HomeScreen}
+          component={ProfileScreen}
           options={{
             tabBarShowLabel: false,
             tabBarLabelStyle: { color: "black" },
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
-                <Ionicons name="person-circle" size={25} color="black" />
+                <Ionicons name="person-sharp" size={23} color="black" />
               ) : (
-                <Ionicons
-                  name="person-circle-outline"
-                  size={25}
-                  color="black"
-                />
+                <Ionicons name="person-outline" size={23} color="black" />
               ),
           }}
         />
@@ -114,7 +111,7 @@ const StackNavigator = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Home"
+          name="Main"
           component={BottomTabs}
           options={{ headerShown: false }}
         />

@@ -135,3 +135,24 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+app.post("/Main", async (req, res) => {
+  try {
+    const { token } = req.body;
+    const decoded = jwt.verify(token, secretKey);
+    console.log(decoded);
+    console.log(token);
+    const user = await User.findOne({ email: decoded.email });
+    if (!decoded) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    res.status(200).json({
+      email: User.email,
+      name: user.name,
+      regno: user.regno,
+    });
+  } catch (err) {
+    console.log("error during login", err);
+    res.status(500).json({ message: err.message });
+  }
+});
