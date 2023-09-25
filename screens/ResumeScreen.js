@@ -11,6 +11,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import { HOST_LINK } from "@env";
 
 const ResumeScreen = () => {
   const [jobsData, setJobsData] = useState([]);
@@ -25,8 +26,8 @@ const ResumeScreen = () => {
   if (!fontsLoaded) {
     return null;
   }
-
-  axios.get("http://192.168.0.100:8000/jobfetch").then((res) => {
+  const url = HOST_LINK+ "/jobfetch";
+  axios.get(url).then((res) => {
     setJobsData(res.data);
   });
 
@@ -95,6 +96,22 @@ const ResumeScreen = () => {
     );
   });
 
+  const applyJob = () => {
+    return (
+      <View
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "85%",
+          borderRadius: 20,
+          backgroundColor: "grey",
+          marginTop: 100,
+          display: "none",
+        }}
+      ></View>
+    );
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -135,6 +152,7 @@ const ResumeScreen = () => {
           {jobViews}
         </View>
       </ScrollView>
+      {applyJob() ? applyJob() : null}
     </SafeAreaView>
   );
 };

@@ -1,4 +1,11 @@
-import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
@@ -9,6 +16,7 @@ import { useFonts } from "expo-font";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Contact from "./ProfileScreen/Contact";
 import Activity from "./ProfileScreen/Activity";
+import { HOST_LINK } from "@env";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -22,6 +30,11 @@ const ProfileScreen = () => {
     "Poppins-Thin": require("../assets/Fonts/Poppins-Thin.ttf"),
     "Poppins-Black": require("../assets/Fonts/Poppins-Black.ttf"),
   });
+  const logout = () => {
+    AsyncStorage.removeItem("authToken");
+    navigation.navigate("Login");
+  };
+  const url = HOST_LINK + "/Main";
   useEffect(() => {
     const FetchData = async () => {
       try {
@@ -30,14 +43,16 @@ const ProfileScreen = () => {
         const tokensend = {
           token: token,
         };
-        axios.post("http://192.168.0.100:8000/Main", tokensend).then((res) => {
-          console.log(res);
-          const email = res.data.email;
-          const username = res.data.name;
-          const rollno = res.data.regno;
-          console.log(email, username, rollno);
-          setUserData({ email, username, rollno });
-        });
+        axios
+          .post(url, tokensend)
+          .then((res) => {
+            console.log(res);
+            const email = res.data.email;
+            const username = res.data.name;
+            const rollno = res.data.regno;
+            console.log(email, username, rollno);
+            setUserData({ email, username, rollno });
+          });
       } catch (err) {
         console.log("error at checkLogin", err);
         navigation.navigate("Login");
@@ -73,12 +88,43 @@ const ProfileScreen = () => {
           width={100}
           height={100}
           style={{
-            position: "absolute",
-            top: 180,
-            left: 30,
-            zIndex: 1,
+            position: "relative",
+            top: -50,
+            right: -20,
           }}
         ></ProfileSVG>
+        <View
+          style={{
+            width: 80,
+            height: 30,
+            position: "absolute",
+            top: 190,
+            right: 0,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              backgroundColor: "black",
+              borderWidth: 1,
+              marginRight: 10,
+            }}
+            onPress={() => {
+              logout();
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Poppins-Light",
+                color: "white",
+                fontSize: 12,
+                textTransform: "uppercase",
+                textAlign: "center",
+              }}
+            >
+              Logout
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <View
         style={{
@@ -117,6 +163,7 @@ const ProfileScreen = () => {
         >
           {userData.rollno}
         </Text>
+        {/* <Text>{HOST}</Text> */}
       </View>
 
       <Tab.Navigator

@@ -6,8 +6,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import ReactSVG from "../assets/images/react.svg";
 import { useFonts } from "expo-font";
+import { HOST_LINK } from "@env";
 
 const HomeScreen = () => {
+  const url = HOST_LINK+"/Main";
   const [userData, setUserData] = useState({});
   const navigation = useNavigation();
   const [fontsLoaded] = useFonts({
@@ -22,7 +24,7 @@ const HomeScreen = () => {
         const tokensend = {
           token: token,
         };
-        axios.post("http://192.168.0.100:8000/Main", tokensend).then((res) => {
+        axios.post(url, tokensend).then((res) => {
           console.log(res);
           const email = res.data.email;
           const username = res.data.name;
@@ -52,14 +54,12 @@ const HomeScreen = () => {
       <View
         style={{
           backgroundColor: "white",
-          flex: 0.12,
+          flex: 0.15,
           position: "fixed",
-          // shadowColor: "black",
-          // shadowOffset: { width: -2, height: -1 },
-          shadowOpacity: 0.2,
-          shadowRadius: 3,
-          // elevation: 3,
-          borderBottomWidth: 0.2,
+          shadowColor: "black",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
           borderBottomColor: "rgba(0, 0, 0, 0.2)",
         }}
       >
@@ -137,7 +137,8 @@ const HomeScreen = () => {
 
         <View
           style={{
-            borderBottomWidth: 0.2,
+            borderBottomWidth: 0.3,
+            borderBottomColor: "rgba(0, 0, 0, 0.2)",
             marginLeft: 20,
             marginRight: 20,
             marginTop: 10,

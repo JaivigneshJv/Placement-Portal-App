@@ -6,7 +6,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { HOST_LINK } from "@env";
 
+const url = HOST_LINK+ "/jobfetch";
 const Contact = () => {
   const [userData, setUserData] = useState({});
   const navigation = useNavigation();
@@ -18,14 +20,16 @@ const Contact = () => {
         const tokensend = {
           token: token,
         };
-        axios.post("http://192.168.0.100:8000/Main", tokensend).then((res) => {
-          console.log(res);
-          const email = res.data.email;
-          const username = res.data.name;
-          const rollno = res.data.regno;
-          console.log(email, username, rollno);
-          setUserData({ email, username, rollno });
-        });
+        axios
+          .post(url, tokensend)
+          .then((res) => {
+            console.log(res);
+            const email = res.data.email;
+            const username = res.data.name;
+            const rollno = res.data.regno;
+            console.log(email, username, rollno);
+            setUserData({ email, username, rollno });
+          });
       } catch (err) {
         console.log("error at checkLogin", err);
         navigation.navigate("Login");

@@ -15,11 +15,13 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { HOST_LINK } from "@env";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+  
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
@@ -33,31 +35,32 @@ const LoginScreen = () => {
     };
     checkLoginStatus();
   }, []);
+  const url = HOST_LINK + "/login";
   const handleLogin = () => {
     const user = {
       email: email,
       password: password,
     };
     axios
-      .post("http://192.168.0.100:8000/login", user)
-      .then((res) => {
-        console.log(res);
-        const token = res.data.token;
-        AsyncStorage.setItem("authToken", token);
-        navigation.navigate("Main");
-      })
-      .catch((err) => {
-        Alert.alert("Login Error", "Invalid Credentials");
-        console.log(err);
-      });
+    .post(url, user)
+    .then((res) => {
+      console.log(res);
+      const token = res.data.token;
+      AsyncStorage.setItem("authToken", token);
+      navigation.navigate("Main");
+    })
+    .catch((err) => {
+      Alert.alert("Login Error", "Invalid Credentials");
+      console.log(err);
+    });
   };
   return (
     <SafeAreaView
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        backgroundColor: "white",
-      }}
+    style={{
+      flex: 1,
+      justifyContent: "center",
+      backgroundColor: "white",
+    }}
     >
       <View
         style={{
@@ -170,7 +173,7 @@ const LoginScreen = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text>New User? Sign Up</Text>
+            <Text>New User? Sign Up{HOST_LINK}</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </View>

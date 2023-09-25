@@ -14,6 +14,8 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import { HOST_LINK } from "@env";
+
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -31,7 +33,7 @@ const RegisterScreen = () => {
     const regnoRegex = /^\d{12}$/;
     return regnoRegex.test(regno);
   };
-
+  const url = HOST_LINK+ "/register";
   const handleRegister = () => {
     if (!email || !password || !rollno || !username) {
       Alert.alert("Error", "Please fill all the fields");
@@ -67,7 +69,7 @@ const RegisterScreen = () => {
     };
 
     axios
-      .post("http://192.168.0.100:8000/register", user)
+      .post(url, user)
       .then((res) => {
         console.log(res);
         Alert.alert(

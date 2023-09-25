@@ -19,7 +19,7 @@ app.listen(port, () => {
 });
 
 mongoose
-  .connect("mongodb+srv://Jv:SekCJv@cluster0.p2aosob.mongodb.net/", {
+  .connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -158,11 +158,6 @@ app.post("/Main", async (req, res) => {
   }
 });
 
-
-
-
-
-
 app.post("/jobs", async (req, res) => {
   const { Companyname, JobDescription, JobName } = req.body;
   const jobs = new job({
@@ -173,9 +168,9 @@ app.post("/jobs", async (req, res) => {
   jobs.save();
 });
 
-
-
 app.get("/jobfetch", async (req, res) => {
   const jobs = await job.find();
   res.send(jobs);
-})
+});
+
+app.post("/getresume", async (req, res) => {});

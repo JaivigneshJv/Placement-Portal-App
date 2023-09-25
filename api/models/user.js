@@ -21,6 +21,10 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  resume: {
+    data: Buffer,
+    contentType: String,
+  },
   verificationToken: String,
 });
 
